@@ -386,7 +386,7 @@ array-table-close = ws %x5D.5D  ; ]] Double right square bracket
    :float-number #(Double/parseDouble (apply str %&))
    :hex-int #(Long/parseLong (apply str %&) 16)
    :inf (constantly ##Inf)
-   :inline-table merge-exps
+   :inline-table (fn [& xs] (if (seq xs) (apply merge-exps xs) {}))
    :literal-string str
    :local-date #(LocalDate/parse (apply str %&))
    :local-date-time #(LocalDateTime/parse (apply str %&))

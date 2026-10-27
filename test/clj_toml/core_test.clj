@@ -1177,7 +1177,27 @@
              (subs src
                    (get-in md ["product" "type" "name" ::target/start])
                    (get-in md ["product" "type" "name" ::target/end]))))
-      (is (nil? (get-in md ["product" "type" "name" ::target/warning])))))
+      (is (nil? (get-in md ["product" "type" "name" ::target/warning]))))
+
+    (let [src (multi-line
+                "empty = {}"
+                "nested = { inner = {} }"
+                "[table]"
+                "empty = {}")
+          res (target/parse-toml src)
+          md (meta res)]
+      (is (= {"empty" {}
+              "nested" {"inner" {}}
+              "table" {"empty" {}}}
+             res))
+      (is (= "empty = {}"
+             (subs src
+                   (get-in md ["empty" ::target/start])
+                   (get-in md ["empty" ::target/end]))))
+      (is (= "inner = {}"
+             (subs src
+                   (get-in md ["nested" "inner" ::target/start])
+                   (get-in md ["nested" "inner" ::target/end]))))))
 
   (testing "Array table"
     (let [src (multi-line
