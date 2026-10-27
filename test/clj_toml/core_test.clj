@@ -312,6 +312,10 @@
                    (get-in md ["str" ::target/end]))))
       (is (nil? (get-in md ["str" ::target/warning])))))
 
+  (testing "Unicode escapes"
+    (is (= {"short" "\u001F" "long" "\uD83D\uDE00"}
+           (target/parse-toml "short = \"\\u001F\"\nlong = \"\\U0001F600\""))))
+
   (testing "Multi-line basic string"
     (let [src (multi-line
                 "str1 = \"\"\""

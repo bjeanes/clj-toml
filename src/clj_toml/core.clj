@@ -374,7 +374,8 @@ array-table-close = ws %x5D.5D  ; ]] Double right square bracket
               (if (and xs (or (= "u" x)
                               (= "U" x)))
                 (-> (apply str xs)
-                    (Integer/parseUnsignedInt 16)
+                    (Long/parseLong 16)
+                    (int)
                     (Character/toString))
                 (get {"b" "\b"
                       "f" "\f"
